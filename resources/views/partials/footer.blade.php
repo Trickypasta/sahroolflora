@@ -41,7 +41,7 @@
                     <a href="#" class="text-gray-400 hover:text-gray-500">[Icon Instagram]</a>
                     <a href="#" class="text-gray-400 hover:text-gray-500">[Icon Facebook]</a>
                     <a href="#" class="text-gray-400 hover:text-gray-500">[Icon TikTok]</a>
-                    <a href="#" class="text-gray-400 hover:text-gray-500">[Icon Pinterest]</a>
+                    <a href="https://shopee.co.id/sahroolflora_?entryPoint=ShopBySearch&searchKeyword=sahroolflora" class="text-gray-400 hover:text-gray-500">Shopee</a>
                 </div>
             </div>
         </div>

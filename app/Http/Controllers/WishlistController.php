@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Product;
@@ -7,24 +8,24 @@ use Illuminate\Support\Facades\Auth;
 
 class WishlistController extends Controller
 {
+    /**
+     * Menampilkan halaman wishlist.
+     */
     public function index()
     {
-        $wishlistItems = Auth::user()->wishlistItems()->with('product.images')->get();
+        // Ambil produk dari relasi wishlist user yang sedang login
+        $wishlistItems = Auth::user()->wishlist()->with('images')->get();
         return view('wishlist.index', compact('wishlistItems'));
     }
 
+    /**
+     * Menambah atau menghapus produk dari wishlist.
+     */
     public function toggle(Product $product)
     {
-        $wishlistItem = Auth::user()->wishlistItems()->where('product_id', $product->id)->first();
-
-        if ($wishlistItem) {
-            // Jika sudah ada, hapus (unlike)
-            $wishlistItem->delete();
-            return back()->with('success', 'Produk dihapus dari wishlist.');
-        } else {
-            // Jika belum ada, tambahkan (like)
-            Auth::user()->wishlistItems()->create(['product_id' => $product->id]);
-            return back()->with('success', 'Produk ditambahkan ke wishlist!');
-        }
+        // Gunakan method toggle() dari Laravel, lebih simpel dan efisien
+        Auth::user()->wishlist()->toggle($product->id);
+        
+        return back()->with('success', 'Status wishlist diperbarui!');
     }
 }

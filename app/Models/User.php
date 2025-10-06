@@ -74,7 +74,16 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
-    public function posts() { return $this->hasMany(Post::class); }
-    public function wishlistItems() { return $this->hasMany(Wishlist::class); }
-
+    public function posts()
+    {
+        return $this->hasMany(Post::class);
+    }
+    /**
+     * Relasi many-to-many ke produk yang ada di wishlist.
+     */
+    public function wishlist(): BelongsToMany
+    {
+        // Nama tabel perantaranya adalah 'wishlist_items' (sesuai standar Laravel)
+        return $this->belongsToMany(Product::class, 'wishlist_items');
+    }
 }

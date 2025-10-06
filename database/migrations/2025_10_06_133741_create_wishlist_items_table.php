@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('wishlists', function (Blueprint $table) {
+        Schema::create('wishlist_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->timestamps();
 
-            // Pastikan satu user tidak bisa wishlist produk yang sama dua kali
+            // Opsional: mencegah user menambahkan produk yang sama dua kali ke wishlist
             $table->unique(['user_id', 'product_id']);
         });
     }
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('wishlists');
+        Schema::dropIfExists('wishlist_items');
     }
 };
