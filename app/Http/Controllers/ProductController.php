@@ -4,11 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\User;
+use App\Models\Wishlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class ProductController extends Controller
 {
+    protected $userModel;
+    
+    function __construct(User $userModel)
+    {
+        // Hanya user yang sudah login yang bisa mengakses metode di controller ini
+        $this->userModel = $userModel;
+    }
+    
     /**
      * Menampilkan halaman katalog produk dengan filter dan sorting.
      */
@@ -40,10 +51,16 @@ class ProductController extends Controller
         // Eksekusi query dengan paginasi
         $products = $query->paginate(12)->withQueryString();
 
+        $wishlistProductIds = [];
+        if (Auth::check()) {
+            $wishlistProductIds = Wishlist::where('user_id', Auth::id())->pluck('product_id')->flip()->toArray();
+        }
+        
+        
         // Ambil semua kategori untuk filter
         $categories = Category::all();
         
-        return view('products.index', compact('products', 'categories'));
+        return view('products.index', compact('products', 'categories', 'wishlistProductIds'));
     }
 
     /**

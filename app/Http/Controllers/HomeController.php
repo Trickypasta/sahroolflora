@@ -22,7 +22,7 @@ class HomeController extends Controller
         $latestPosts = Post::whereNotNull('published_at')->latest()->take(2)->get();
         
         // 2. LOGIKA UNTUK MENGAMBIL WISHLIST
-        $wishlistProductIds = []; // Inisialisasi sebagai array kosong
+        $wishlistProductIds = []; // Inisialisasi sebagai array kosong\
         if (Auth::check()) { // Cek dulu apakah user sudah login
             // Ambil SEMUA ID produk yang ada di wishlist user
             // pluck() -> hanya ambil kolom 'product_id'

@@ -83,7 +83,7 @@ class User extends Authenticatable
      */
     public function wishlist(): BelongsToMany
     {
-        // Nama tabel perantaranya adalah 'wishlist_items' (sesuai standar Laravel)
+        // Parameter kedua adalah nama tabel perantara (pivot table)
         return $this->belongsToMany(Product::class, 'wishlist_items');
     }
 }

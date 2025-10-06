@@ -77,7 +77,7 @@
                                     class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
                                 
                                 {{-- Perbaikan: Kode Tombol Hati yang Benar --}}
-                                @include('partials.wishlist-button', ['product' => $product])
+                                @include('partials.wishlist-button', ['product' => $product, 'wishlistProductIds' => $wishlistProductIds])
 
                             </div>
                             <div class="mt-4">

@@ -77,7 +77,6 @@ Route::middleware('guest')->group(function () {
     Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AuthController::class, 'login']);
     Route::get('/promos', action: [CouponController::class, 'index'])->name('coupons.index');
-    
 });
 
 /*
@@ -114,13 +113,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/password', [ProfileController::class, 'updatePassword'])->name('password.update');
-    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
-    Route::post('/wishlist/toggle/{product}', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
     Route::get('/track-order', [OrderController::class, 'showTrackForm'])->name('orders.track.form');
     Route::post('/track-order', [OrderController::class, 'findOrder'])->name('orders.track.find');
     Route::get('/coupons.index', action: [CouponController::class, 'index'])->name('coupons.index');
-
-});
+    Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+    Route::post('/wishlist/toggle/{product}', [WishlistController::class, 'toggle'])->name('wishlist.toggle');
 
 /*
 |--------------------------------------------------------------------------
@@ -158,4 +155,6 @@ Route::middleware(['auth', 'is.admin'])->prefix('admin')->name('admin.')->group(
     Route::get('/customers/{user}', [Admin\UserController::class, 'show'])->name('customers.show');
     Route::get('/reports/customers', [Admin\ReportController::class, 'topCustomers'])->name('reports.customers');
     Route::resource('posts', PostController::class)->except(['show']);
+});
+
 });

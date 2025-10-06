@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->timestamps();
 
-            // Opsional: mencegah user menambahkan produk yang sama dua kali ke wishlist
+            // Mencegah user menambahkan produk yang sama dua kali
             $table->unique(['user_id', 'product_id']);
         });
     }

@@ -1,3 +1,4 @@
+
 @auth
     <form action="{{ route('wishlist.toggle', $product->id) }}" method="POST" class="absolute top-3 right-3 z-10">
         @csrf

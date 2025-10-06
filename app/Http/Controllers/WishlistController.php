@@ -15,6 +15,8 @@ class WishlistController extends Controller
     {
         // Ambil produk dari relasi wishlist user yang sedang login
         $wishlistItems = Auth::user()->wishlist()->with('images')->get();
+
+        // Kirim data ke view
         return view('wishlist.index', compact('wishlistItems'));
     }
 
@@ -25,7 +27,7 @@ class WishlistController extends Controller
     {
         // Gunakan method toggle() dari Laravel, lebih simpel dan efisien
         Auth::user()->wishlist()->toggle($product->id);
-        
+
         return back()->with('success', 'Status wishlist diperbarui!');
     }
 }
