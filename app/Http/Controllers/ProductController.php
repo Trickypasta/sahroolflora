@@ -11,15 +11,26 @@ use Illuminate\View\View;
 class ProductController extends Controller
 {
     /**
-     * Menampilkan halaman katalog produk dengan filter dan sorting.
+     * Menampilkan halaman katalog produk dengan filter, search, dan sorting.
      */
     public function index(Request $request): View
     {
-        // Ambil semua kategori untuk filter
+        // Ambil semua kategori untuk filter sidebar
         $categories = Category::latest()->get();
 
         // Mulai membangun query produk
         $query = Product::query()->with('images');
+
+        // ==========================================================
+        // FITUR PENCARIAN (SEARCH)
+        // ==========================================================
+        if ($request->filled('search')) {
+            $searchTerm = $request->search;
+            $query->where(function ($q) use ($searchTerm) {
+                $q->where('name', 'like', "%{$searchTerm}%")
+                    ->orWhere('description', 'like', "%{$searchTerm}%");
+            });
+        }
 
         // Filter berdasarkan Kategori
         if ($request->filled('category')) {
@@ -44,15 +55,12 @@ class ProductController extends Controller
         // Eksekusi query dengan paginasi
         $products = $query->paginate(12)->withQueryString();
 
-        // ==========================================================
-        // PERBAIKAN 1: Logika Wishlist Disederhanakan
-        // ==========================================================
+        // Logika Wishlist
         $wishlistProductIds = [];
         if (Auth::check()) {
-            // Gunakan relasi 'wishlist' yang sudah ada di model User
             $wishlistProductIds = Auth::user()->wishlist()->pluck('product_id')->flip()->toArray();
         }
-        
+
         return view('products.index', compact('products', 'categories', 'wishlistProductIds'));
     }
 
@@ -63,9 +71,6 @@ class ProductController extends Controller
     {
         $product->load('images', 'stock', 'categories');
 
-        // ==========================================================
-        // PERBAIKAN 2: Tambahkan Logika Wishlist di Sini Juga
-        // ==========================================================
         $wishlistProductIds = [];
         if (Auth::check()) {
             $wishlistProductIds = Auth::user()->wishlist()->pluck('product_id')->flip()->toArray();

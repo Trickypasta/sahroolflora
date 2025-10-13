@@ -18,6 +18,15 @@ export default {
                 sans: ["Inter", "sans-serif"],
                 lora: ["Lora", "serif"],
             },
+            typography: ({ theme }) => ({
+                DEFAULT: {
+                    css: {
+                        p: {
+                            fontFamily: theme('fontFamily.sans'),
+                        },
+                    },
+                },
+            }),
         },
     },
 

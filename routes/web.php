@@ -146,9 +146,10 @@ Route::middleware(['auth', 'is.admin'])->prefix('admin')->name('admin.')->group(
     Route::get('/stocks', [Admin\StockController::class, 'index'])->name('stocks.index');
     Route::post('/stocks/{stock}', [Admin\StockController::class, 'update'])->name('stocks.update');
     Route::get('/messages', [Admin\ContactMessageController::class, 'index'])->name('messages.index');
-    Route::get('/testimonials', [Admin\TestimonialController::class, 'index'])->name('testimonials.index');
-    Route::post('/testimonials/{testimonial}/approve', [Admin\TestimonialController::class, 'approve'])->name('testimonials.approve');
-    Route::delete('/testimonials/{testimonial}', [Admin\TestimonialController::class, 'destroy'])->name('testimonials.destroy');
+    Route::delete('/messages/{message}', [Admin\ContactMessageController::class, 'destroy'])->name('messages.destroy');
+    Route::delete('testimonials/{testimonial}', [Admin\TestimonialController::class, 'destroy'])->name('testimonials.destroy');
+    Route::post('testimonials/{testimonial}/approve', [Admin\TestimonialController::class, 'approve'])->name('testimonials.approve');
+    Route::get('testimonials', [Admin\TestimonialController::class, 'index'])->name('testimonials.index');
     Route::get('/returns', [Admin\ReturnRequestController::class, 'index'])->name('returns.index');
     Route::post('/returns/{returnRequest}', [Admin\ReturnRequestController::class, 'update'])->name('returns.update');
     Route::get('/payments/verify', [Admin\PaymentController::class, 'index'])->name('payments.verify.index');

@@ -64,7 +64,7 @@
                                         @endif
                                     </td>
                                     <td class="border px-4 py-2">
-                                        <form action="{{ route('admin.coupons.destroy', $coupon->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus kupon ini?');">
+                                        <form action="{{ route('admin.coupons.destroy', $coupon->id) }}" method="POST" @submit.prevent="openModal($event.target)">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-600 hover:underline text-sm">Hapus</button>

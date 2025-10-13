@@ -30,7 +30,7 @@
                             @endforeach
                         </td>
                         <td class="border px-4 py-2">
-                            <a href="{{ route('admin.customers.show', $user->id) }}"
+                            <a href="{{ route('admin.users.show', $user->id) }}"
                                 class="text-blue-600 hover:underline font-semibold">
                                 {{ $user->name }}
                             </a>

@@ -5,7 +5,7 @@
 @section('content')
 
     <section class="relative h-64 bg-cover bg-center text-white"
-        style="background-image: url('https://images.unsplash.com/photo-1453904300235-d9f2b7d2f09d?q=80&w=2070');">
+        style="background-image: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=2874');">
         <div class="absolute inset-0 bg-black bg-opacity-40"></div>
         <div class="relative z-10 flex items-center justify-center h-full text-center">
             <h1 class="font-lora text-5xl font-extrabold tracking-tight">Cerita Kami</h1>
@@ -21,7 +21,7 @@
                             class="rounded-lg shadow-lg w-full h-auto object-contain">
                     @else
                         {{-- Gambar default jika logo belum di-upload --}}
-                        <img src="https://images.unsplash.com/photo-1587329245131-8926b05d1502?q=80&w=1964"
+                        <img src="{{ asset('sahroolicon.jpg') }}"
                             alt="Petani tanaman hias lokal" class="rounded-lg shadow-lg aspect-[4/3] object-cover">
                     @endif
                 </div>
@@ -39,8 +39,7 @@
     <section class="py-16 sm:py-24 bg-[#F8F7F3]">
         <div class="max-w-3xl mx-auto px-4 text-center">
             <h2 class="text-3xl font-bold text-gray-800 tracking-tight">Visi Kami</h2>
-            <p class="mt-4 font-lora text-2xl text-gray-600 leading-relaxed">
-                {{-- UBAH BAGIAN INI --}}
+            <p class="mt-4 font-lora text-2xl text-gray-600 leading-relaxed"> 
                 "{{ $settings['about_vision'] ?? 'Visi perusahaan belum diisi.' }}"
             </p>
         </div>
@@ -63,10 +62,10 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-lg font-semibold">{{ $settings['about_mission_1_title'] ?? 'Kualitas Terbaik' }}
+                        <h3 class="text-lg font-semibold">{{ $settings['about_mission_1_title'] ?? 'Mendukung UMKM' }}
                         </h3>
                         <p class="mt-1 text-gray-600">
-                            {{ $settings['about_mission_1_desc'] ?? 'Menyediakan tanaman hias berkualitas tinggi yang dirawat langsung oleh petani ahli.' }}
+                            {{ $settings['about_mission_1_desc'] ?? 'Mendukung UMKM dan petani tanaman lokal agar lebih berkembang secara digital.' }}
                         </p>
                     </div>
                 </div>
@@ -78,7 +77,7 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="text-lg font-semibold">{{ $settings['about_mission_2_title'] ?? 'Akses Mudah' }}</h3>
+                        <h3 class="text-lg font-semibold">{{ $settings['about_mission_2_title'] ?? 'Produk Sehat' }}</h3>
                         <p class="mt-1 text-gray-600">
                             {{ $settings['about_mission_2_desc'] ?? 'Memberikan kemudahan akses bagi customer untuk mendapatkan informasi dan produk yang sesuai.' }}
                         </p>

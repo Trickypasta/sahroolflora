@@ -50,7 +50,7 @@
                                     <td class="border px-4 py-2">{{ $category->slug }}</td>
                                     <td class="border px-4 py-2">
                                         <a href="{{ route('admin.categories.edit', $category->id) }}" class="text-yellow-600 hover:underline text-sm">Edit</a>
-                                        <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus kategori ini?');">
+                                        <form action="{{ route('admin.categories.destroy', $category->id) }}" method="POST" class="inline" @submit.prevent="openModal($event.target)">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-600 hover:underline text-sm ml-2">Hapus</button>

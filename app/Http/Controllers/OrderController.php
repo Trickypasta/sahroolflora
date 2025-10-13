@@ -39,14 +39,22 @@ class OrderController extends Controller
     // Method untuk mencari dan menampilkan hasil
     public function findOrder(Request $request)
     {
-        $request->validate(['order_id' => 'required|integer']);
+        $request->validate([
+            'order_id' => 'required|string',
+            'email' => 'required|email', 
+        ]);
 
-        $order = Order::find($request->order_id);
+        // Cari pesanan berdasarkan ID DAN email
+        $order = Order::where('id', $request->order_id)
+            ->whereHas('user', function ($query) use ($request) {
+                $query->where('email', $request->email);
+            })
+            ->first();
 
         if ($order) {
             return view('orders.track', compact('order'));
         } else {
-            return view('orders.track', ['error' => 'Pesanan dengan ID tersebut tidak ditemukan.']);
+            return back()->with('error', 'Kombinasi ID Pesanan dan Email tidak ditemukan.');
         }
     }
 }

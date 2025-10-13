@@ -38,7 +38,7 @@
                     </button>
                 </form>
                 <div class="mt-6 flex space-x-6">
-                    <a href="#" class="text-gray-400 hover:text-gray-500">[Icon Instagram]</a>
+                    <a href="https://www.instagram.com/sahroolflora_/" class="text-gray-400 hover:text-gray-500">Instagram</a>
                     <a href="#" class="text-gray-400 hover:text-gray-500">[Icon Facebook]</a>
                     <a href="#" class="text-gray-400 hover:text-gray-500">[Icon TikTok]</a>
                     <a href="https://shopee.co.id/sahroolflora_?entryPoint=ShopBySearch&searchKeyword=sahroolflora" class="text-gray-400 hover:text-gray-500">Shopee</a>

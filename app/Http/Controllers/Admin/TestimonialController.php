@@ -8,24 +8,22 @@ use Illuminate\Http\Request;
 
 class TestimonialController extends Controller
 {
-    // Menampilkan semua testimoni
     public function index()
     {
-        $testimonials = Testimonial::with('user')->latest()->get();
+        // Ambil SEMUA testimoni, dengan relasi ke user & produk, lalu paginasi
+        $testimonials = Testimonial::with(['user', 'product'])->latest()->paginate(15);
         return view('admin.testimonials.index', compact('testimonials'));
     }
 
-    // Menyetujui testimoni
     public function approve(Testimonial $testimonial)
     {
         $testimonial->update(['is_approved' => true]);
-        return back()->with('success', 'Testimoni berhasil disetujui!');
+        return back()->with('success', 'Ulasan berhasil disetujui.');
     }
 
-    // Menghapus testimoni
     public function destroy(Testimonial $testimonial)
     {
         $testimonial->delete();
-        return back()->with('success', 'Testimoni berhasil dihapus!');
+        return back()->with('success', 'Ulasan berhasil dihapus.');
     }
 }

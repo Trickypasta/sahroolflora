@@ -1,17 +1,22 @@
 <?php
-namespace App\Http\Controllers;
+
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StorePostRequest;
+use App\Http\Requests\UpdatePostRequest;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::with('user')->latest()->get();
+        // Ganti get() jadi paginate() biar gak lemot kalau post udah banyak
+        $posts = Post::with('user')->latest()->paginate(10);
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -20,18 +25,24 @@ class PostController extends Controller
         return view('admin.posts.create');
     }
 
-    public function store(Request $request)
+    public function store(StorePostRequest $request)
     {
-        $request->validate(['title' => 'required|string|unique:posts', 'body' => 'required', 'image' => 'nullable|image']);
-        $path = $request->hasFile('image') ? $request->file('image')->store('posts', 'public') : null;
+        // Validasi sekarang otomatis ditangani oleh StorePostRequest
+        $validated = $request->validated();
+
+        $path = null;
+        if ($request->hasFile('image')) {
+            $path = $request->file('image')->store('posts', 'public');
+        }
 
         Auth::user()->posts()->create([
-            'title' => $request->title,
-            'slug' => Str::slug($request->title),
-            'body' => $request->body,
-            'image' => $path,
+            'title' => $validated['title'],
+            'slug' => Str::slug($validated['title']),
+            'body' => $validated['body'],
+            'image' => $path, // Kirim $path yang mungkin null
             'published_at' => now(),
         ]);
+
         return redirect()->route('admin.posts.index')->with('success', 'Postingan berhasil dibuat!');
     }
 
@@ -40,37 +51,31 @@ class PostController extends Controller
         return view('admin.posts.edit', compact('post'));
     }
 
-    public function update(Request $request, Post $post)
+    public function update(UpdatePostRequest $request, Post $post)
     {
-        $request->validate([
-            'title' => 'required|string|unique:posts,title,' . $post->id,
-            'body' => 'required',
-            'image' => 'nullable|image'
-        ]);
+        $validated = $request->validated();
+        $dataToUpdate = [
+            'title' => $validated['title'],
+            'slug' => Str::slug($validated['title']),
+            'body' => $validated['body'],
+        ];
 
-        $path = $post->image;
         if ($request->hasFile('image')) {
             // Hapus gambar lama jika ada
             if ($post->image) {
                 Storage::disk('public')->delete($post->image);
             }
-            // Simpan gambar baru
-            $path = $request->file('image')->store('posts', 'public');
+            // Simpan gambar baru dan tambahkan path ke data yang akan diupdate
+            $dataToUpdate['image'] = $request->file('image')->store('posts', 'public');
         }
 
-        $post->update([
-            'title' => $request->title,
-            'slug' => Str::slug($request->title),
-            'body' => $request->body,
-            'image' => $path,
-        ]);
+        $post->update($dataToUpdate);
 
         return redirect()->route('admin.posts.index')->with('success', 'Postingan berhasil diupdate!');
     }
 
     public function destroy(Post $post)
     {
-        // Hapus gambar dari storage jika ada
         if ($post->image) {
             Storage::disk('public')->delete($post->image);
         }

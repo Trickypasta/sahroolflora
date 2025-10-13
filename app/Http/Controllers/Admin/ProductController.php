@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -32,13 +33,18 @@ class ProductController extends Controller
             'price' => 'required|numeric',
             'stock' => 'required|integer',
             'categories' => 'required|array',
+            'description' => 'nullable|string',
+            'care_guide' => 'nullable|string',
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
+
+
 
         $product = Product::create([
             'name' => $request->name,
             'slug' => Str::slug($request->name),
             'description' => $request->description,
+            'care_guide' => $request->care_guide,
             'price' => $request->price,
         ]);
 
@@ -51,7 +57,7 @@ class ProductController extends Controller
                 $product->images()->create(['path' => $path]);
             }
         }
-        
+
         return redirect()->route('admin.products.index');
     }
 
@@ -69,6 +75,8 @@ class ProductController extends Controller
             'name' => 'required|string|max:255|unique:products,name,' . $product->id, // <-- INI VERSI BARU
             'price' => 'required|numeric',
             'stock' => 'required|integer',
+            'care_guide' => 'nullable|string',
+            'description' => 'nullable|string',
             'categories' => 'required|array',
         ]);
 
@@ -76,10 +84,11 @@ class ProductController extends Controller
             'name' => $request->name,
             'slug' => Str::slug($request->name),
             'description' => $request->description,
+            'care_guide' => $request->care_guide,
             'price' => $request->price,
         ]);
 
-        $product->categories()->sync($request->categories);
+        $product->categories()->sync($request->categories ?? []);
         $product->stock()->update(['quantity' => $request->stock]);
 
         return redirect()->route('admin.products.index');
@@ -93,9 +102,10 @@ class ProductController extends Controller
             Storage::disk('public')->delete($image->path);
         }
 
+
         // Hapus data dari database (otomatis menghapus relasi)
         $product->delete();
-        
+
         return redirect()->route('admin.products.index');
     }
 }

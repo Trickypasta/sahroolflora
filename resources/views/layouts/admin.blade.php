@@ -15,7 +15,20 @@
     </style>
 </head>
 
-<body class="bg-slate-100 font-sans antialiased" x-data="{ sidebarOpen: false, notificationOpen: false, profileOpen: false }">
+<body class="bg-slate-100 font-sans antialiased" x-data="{
+    sidebarOpen: false,
+    notificationOpen: false,
+    profileOpen: false,
+    modalOpen: false,
+    formToSubmit: null,
+    openModal(formElement) {
+        this.formToSubmit = formElement;
+        this.modalOpen = true;
+    },
+    submitForm() {
+        this.formToSubmit.submit();
+    }
+}">
     @php
         $navItems = [
             // General
@@ -265,7 +278,7 @@
             </main>
         </div>
     </div>
-
+    @include('partials.confirm-delete-modal')
     @stack('scripts')
 </body>
 

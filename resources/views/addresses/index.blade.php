@@ -20,7 +20,7 @@
                         </p>
                     </div>
                     @if (count($addresses) < 5)
-                        <a href="{{ route('addresses.create') }}" class="inline-flex ...">
+                        <a href="{{ route('addresses.create') }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none">
                             Tambah Alamat
                         </a>
                     @endif
@@ -38,11 +38,11 @@
                                 <a href="{{ route('addresses.edit', $address->id) }}"
                                     class="text-sm font-medium text-green-600 hover:text-green-800">Edit</a>
                                 <form action="{{ route('addresses.destroy', $address->id) }}" method="POST"
-                                    onsubmit="return confirm('Anda yakin ingin menghapus alamat ini?');">
+                                    @submit.prevent="openModal($event.target)">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit"
-                                        class="text-sm font-medium text-red-600 hover:text-red-800">Hapus</button>
+                                    class="text-sm font-medium text-red-600 hover:text-red-800">Hapus</button>
                                 </form>
                             </div>
                         </div>

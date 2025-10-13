@@ -31,7 +31,7 @@
                                             class="bg-yellow-500 text-white px-3 py-1 rounded-md text-sm hover:bg-yellow-600">Edit</a>
                                         <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST"
                                             class="inline"
-                                            onsubmit="return confirm('Yakin ingin menghapus postingan ini?');">
+                                            @submit.prevent="openModal($event.target)">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit"
