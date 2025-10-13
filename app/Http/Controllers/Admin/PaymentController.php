@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
-class PaymentController extends Controller // <-- NAMA KELAS BARU
+class PaymentController extends Controller 
 {
     public function index()
     {

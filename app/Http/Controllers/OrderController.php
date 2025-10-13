@@ -11,7 +11,12 @@ class OrderController extends Controller
 
     public function index()
     {
-        $orders = Auth::user()->orders()->with('returnRequest')->latest()->get();
+        // Ganti get() menjadi paginate(). Angka 10 adalah jumlah pesanan per halaman.
+        $orders = Auth::user()->orders()
+            ->with('returnRequest')
+            ->latest()
+            ->paginate(10);
+
         return view('orders.index', compact('orders'));
     }
 

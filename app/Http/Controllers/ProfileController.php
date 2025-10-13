@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules\Password;
+// Impor Form Request yang baru
+use App\Http\Requests\UpdateProfileRequest;
+use App\Http\Requests\UpdatePasswordRequest;
 
 class ProfileController extends Controller
 {
@@ -16,27 +17,18 @@ class ProfileController extends Controller
         ]);
     }
 
-    public function update(Request $request)
+    public function update(UpdateProfileRequest $request) // <-- Ganti di sini
     {
-        $user = $request->user();
-        $validated = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
-        ]);
-        $user->fill($validated);
-        $user->save();
-        return redirect()->route('profile.edit')->with('success', 'Profil berhasil diupdate!');
+        $request->user()->fill($request->validated());
+        $request->user()->save();
+        return back()->with('success', 'Profil berhasil diupdate!');
     }
 
-    public function updatePassword(Request $request)
+    public function updatePassword(UpdatePasswordRequest $request) // <-- Ganti di sini
     {
-        $validated = $request->validate([
-            'current_password' => ['required', 'current_password'],
-            'password' => ['required', Password::defaults(), 'confirmed'],
-        ]);
         $request->user()->update([
-            'password' => Hash::make($validated['password']),
+            'password' => Hash::make($request->validated('password')),
         ]);
-        return redirect()->route('profile.edit')->with('success', 'Password berhasil diubah!');
+        return back()->with('success', 'Password berhasil diubah!');
     }
 }

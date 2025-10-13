@@ -1,89 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('layouts.app')
 
-<head>
-    <title>Riwayat Pesanan Saya - SahroolFlora</title>
-    @vite('resources/css/app.css')
-</head>
+@section('title', 'Riwayat Pesanan - SahroolFlora')
 
-<body class="bg-gray-100">
-    @include('partials.navbar')
-    <main class="py-10">
-        <div class="max-w-4xl mx-auto">
-            <div class="bg-white p-6 rounded-lg shadow-md">
-                <h1 class="text-2xl font-bold mb-6">Riwayat Pesanan Saya</h1>
-                <table class="w-full border-collapse">
-                    <thead>
-                        <tr class="bg-gray-200">
-                            <th class="border px-4 py-2 text-left">ID Pesanan</th>
-                            <th class="border px-4 py-2 text-left">Tanggal</th>
-                            <th class="border px-4 py-2 text-left">Total</th>
-                            <th class="border px-4 py-2 text-left">Status</th>
-                            <th class="border px-4 py-2 text-left">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
+@section('content')
+
+    <div class="bg-gray-50 border-b">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <h1 class="font-lora text-3xl font-extrabold tracking-tight text-gray-900">Akun Saya</h1>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+            <aside class="md:col-span-1">
+                @include('partials.account-sidebar')
+            </aside>
+
+            <div class="md:col-span-3">
+                <div class="bg-white rounded-lg shadow-sm">
+                    <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+                        <h2 class="text-xl font-bold text-gray-900">Riwayat Pesanan Anda</h2>
+                    </div>
+
+                    <div class="divide-y divide-gray-200">
                         @forelse ($orders as $order)
-                            <tr class="hover:bg-gray-50">
-                                <td class="border px-4 py-2">#{{ $order->id }}</td>
-                                <td class="border px-4 py-2">{{ $order->created_at->format('d M Y') }}</td>
-                                <td class="border px-4 py-2">Rp {{ number_format($order->total_amount, 0, ',', '.') }}
-                                </td>
-                                <td class="border px-4 py-2">
-                                    @switch($order->status)
-                                        @case('pending')
-                                            <span
-                                                class="px-2 py-1 text-xs font-semibold rounded-full bg-yellow-200 text-yellow-800">Pending</span>
-                                        @break
-
-                                        @case('processing')
-                                            <span
-                                                class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-200 text-blue-800">Diproses</span>
-                                        @break
-
-                                        @case('shipped')
-                                            <span
-                                                class="px-2 py-1 text-xs font-semibold rounded-full bg-indigo-200 text-indigo-800">Dikirim</span>
-                                        @break
-
-                                        @case('completed')
-                                            <span
-                                                class="px-2 py-1 text-xs font-semibold rounded-full bg-green-200 text-green-800">Selesai</span>
-                                        @break
-
-                                        @case('cancelled')
-                                            <span
-                                                class="px-2 py-1 text-xs font-semibold rounded-full bg-red-200 text-red-800">Dibatalkan</span>
-                                        @break
-
-                                        @default
-                                            <span
-                                                class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-800">{{ ucfirst($order->status) }}</span>
-                                    @endswitch
-
-                                    @if ($order->returnRequest)
-                                        <span
-                                            class="ml-2 px-2 py-1 text-xs font-semibold rounded-full bg-gray-200 text-gray-800">
-                                            Return {{ ucfirst($order->returnRequest->status) }}
-                                        </span>
-                                    @endif
-                                </td>
-                                <td class="border px-4 py-2">
+                            <div class="p-4 sm:p-6 grid grid-cols-3 sm:grid-cols-5 gap-4 items-center hover:bg-gray-50">
+                                <div class="col-span-2 sm:col-span-2">
+                                    <p class="text-sm font-semibold text-green-700">#{{ $order->id }}</p>
+                                    <p class="text-xs text-gray-500">{{ $order->created_at->format('d F Y') }}</p>
+                                </div>
+                                <div class="text-sm text-gray-900 font-medium">
+                                    <span class="sm:hidden">Total: </span>
+                                    Rp {{ number_format($order->total_amount, 0, ',', '.') }}
+                                </div>
+                                <div>
+                                    @include('partials.order-status-badge', ['status' => $order->status])
+                                </div>
+                                <div class="text-right">
                                     <a href="{{ route('orders.show', $order->id) }}"
-                                        class="text-blue-500 hover:underline">Lihat Detail</a>
-                                </td>
-                            </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="5" class="border px-4 py-2 text-center text-gray-500">Anda belum
-                                        memiliki riwayat pesanan.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+                                        class="text-sm font-medium text-green-600 hover:text-green-800">
+                                        Lihat Detail
+                                    </a>
+                                </div>
+                            </div>
+                        @empty
+                            <div class="p-6 text-center text-gray-500">
+                                Anda belum memiliki riwayat pesanan.
+                            </div>
+                        @endforelse
+                    </div>
+
+                    @if ($orders->hasPages())
+                        <div class="px-4 py-3 border-t border-gray-200">
+                            {{ $orders->links() }}
+                        </div>
+                    @endif
                 </div>
             </div>
-        </main>
-    </body>
-
-    </html>
+        </div>
+    </div>
+@endsection

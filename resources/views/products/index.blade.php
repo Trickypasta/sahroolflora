@@ -76,13 +76,13 @@
                                     alt="{{ $product->name }}"
                                     class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
                                 
-                                {{-- Perbaikan: Kode Tombol Hati yang Benar --}}
-                                @include('partials.wishlist-button', ['product' => $product, 'wishlistProductIds' => $wishlistProductIds])
-
+                                {{-- Menghapus parameter wishlistProductIds karena sudah di-handle controller --}}
+                                @include('partials.wishlist-button', ['product' => $product])
                             </div>
                             <div class="mt-4">
                                 <h3 class="text-lg font-semibold text-gray-800">
-                                    <a href="{{ route('products.show', 'slug') }}">
+                                    {{-- GANTI 'slug' MENJADI $product->slug --}}
+                                    <a href="{{ route('products.show', $product->slug) }}">
                                         <span class="absolute inset-0"></span>
                                         {{ $product->name }}
                                     </a>
@@ -91,8 +91,7 @@
                             </div>
                         </div>
                     @empty
-                        <p class="col-span-full text-center text-gray-500 py-16">Produk tidak ditemukan dengan
-                            filter ini.</p>
+                        <p class="col-span-full text-center text-gray-500 py-16">Produk tidak ditemukan dengan filter ini.</p>
                     @endforelse
                 </div>
             </div>

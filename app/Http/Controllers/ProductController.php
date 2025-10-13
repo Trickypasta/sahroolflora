@@ -2,29 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Product;
 use App\Models\Category;
-use App\Models\User;
-use App\Models\Wishlist;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    protected $userModel;
-    
-    function __construct(User $userModel)
-    {
-        // Hanya user yang sudah login yang bisa mengakses metode di controller ini
-        $this->userModel = $userModel;
-    }
-    
     /**
      * Menampilkan halaman katalog produk dengan filter dan sorting.
      */
     public function index(Request $request): View
     {
+        // Ambil semua kategori untuk filter
+        $categories = Category::latest()->get();
+
         // Mulai membangun query produk
         $query = Product::query()->with('images');
 
@@ -44,21 +37,21 @@ class ProductController extends Controller
                 $query->orderBy('price', 'desc');
                 break;
             default:
-                $query->latest(); // Default: terbaru
+                $query->latest();
                 break;
         }
 
         // Eksekusi query dengan paginasi
         $products = $query->paginate(12)->withQueryString();
 
+        // ==========================================================
+        // PERBAIKAN 1: Logika Wishlist Disederhanakan
+        // ==========================================================
         $wishlistProductIds = [];
         if (Auth::check()) {
-            $wishlistProductIds = Wishlist::where('user_id', Auth::id())->pluck('product_id')->flip()->toArray();
+            // Gunakan relasi 'wishlist' yang sudah ada di model User
+            $wishlistProductIds = Auth::user()->wishlist()->pluck('product_id')->flip()->toArray();
         }
-        
-        
-        // Ambil semua kategori untuk filter
-        $categories = Category::all();
         
         return view('products.index', compact('products', 'categories', 'wishlistProductIds'));
     }
@@ -68,7 +61,17 @@ class ProductController extends Controller
      */
     public function show(Product $product): View
     {
-        $product->load('images', 'stock');
-        return view('products.show', compact('product'));
+        $product->load('images', 'stock', 'categories');
+
+        // ==========================================================
+        // PERBAIKAN 2: Tambahkan Logika Wishlist di Sini Juga
+        // ==========================================================
+        $wishlistProductIds = [];
+        if (Auth::check()) {
+            $wishlistProductIds = Auth::user()->wishlist()->pluck('product_id')->flip()->toArray();
+        }
+
+        // Kirim variabel 'product' DAN 'wishlistProductIds' ke view
+        return view('products.show', compact('product', 'wishlistProductIds'));
     }
 }

@@ -11,8 +11,12 @@ class TestimonialController extends Controller
     // Untuk menampilkan semua testimoni yang sudah disetujui (approve)
     public function index()
     {
-        $testimonials = Testimonial::where('is_approved', true)->with('user')->latest()->get();
-        return view('testimonials.index', compact('testimonials'));
+        $testimonials = Testimonial::where('is_approved', true)
+                               ->with('user')
+                               ->latest()
+                               ->paginate(9); 
+                               
+    return view('testimonials.index', compact('testimonials'));
     }
 
     // Untuk menyimpan testimoni baru dari customer

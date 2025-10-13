@@ -12,10 +12,13 @@ use App\Models\Role;
 use App\Models\Cart;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+
+
 
     /**
      * The attributes that are mass assignable.
@@ -85,5 +88,15 @@ class User extends Authenticatable
     {
         // Parameter kedua adalah nama tabel perantara (pivot table)
         return $this->belongsToMany(Product::class, 'wishlist_items');
+    }
+
+    /**
+     * TAMBAHKAN METHOD INI
+     * Mendefinisikan relasi "hasMany" ke model Address.
+     * Satu User bisa memiliki banyak Alamat.
+     */
+    public function addresses(): HasMany
+    {
+        return $this->hasMany(Address::class);
     }
 }

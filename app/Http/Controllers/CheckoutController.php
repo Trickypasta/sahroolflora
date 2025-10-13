@@ -8,6 +8,7 @@ use App\Models\PaymentMethod;
 use App\Models\ShippingMethod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB; // <-- 1. Tambahkan ini untuk Transaction
 
 class CheckoutController extends Controller
 {
@@ -16,7 +17,8 @@ class CheckoutController extends Controller
      */
     public function index()
     {
-        $cart = Auth::user()->cart()->with('items.product')->first();
+        $user = Auth::user();
+        $cart = $user->cart()->with('items.product.images')->first();
 
         if (!$cart || $cart->items->isEmpty()) {
             return redirect()->route('products.index')->with('error', 'Keranjang Anda kosong untuk checkout.');
@@ -24,11 +26,11 @@ class CheckoutController extends Controller
 
         $shippingMethods = ShippingMethod::where('is_active', true)->get();
         $paymentMethods = PaymentMethod::where('is_active', true)->get();
+        $addresses = $user->addresses()->latest()->get();
 
-        $subtotal = 0;
-        foreach ($cart->items as $item) {
-            $subtotal += $item->product->price * $item->quantity;
-        }
+        $subtotal = $cart->items->reduce(function ($carry, $item) {
+            return $carry + ($item->product->price * $item->quantity);
+        }, 0);
 
         $discount = 0;
         if (session()->has('coupon')) {
@@ -40,91 +42,107 @@ class CheckoutController extends Controller
             }
         }
 
-        $totalAfterDiscount = $subtotal - $discount;
-        if ($totalAfterDiscount < 0) {
-            $totalAfterDiscount = 0;
-        }
+        $totalAfterDiscount = max(0, $subtotal - $discount);
 
-        return view('checkout.index', compact('cart', 'shippingMethods', 'paymentMethods', 'subtotal', 'discount', 'totalAfterDiscount'));
+        return view('checkout.index', compact('cart', 'shippingMethods', 'paymentMethods', 'subtotal', 'discount', 'totalAfterDiscount', 'addresses'));
     }
 
     /**
      * Memproses pesanan dari form checkout.
      */
     public function store(Request $request)
-    {
-        $request->validate([
-            'address_line' => 'required|string|max:255',
-            'city' => 'required|string|max:255',
-            'province' => 'required|string|max:255',
-            'postal_code' => 'required|string|max:10',
-            'shipping_method_id' => 'required|exists:shipping_methods,id',
-            'payment_method_id' => 'required|exists:payment_methods,id',
-        ]);
+{
+    // 1. Validasi semua input terlebih dahulu
+    $request->validate([
+        'address_option' => 'required|string',
+        'shipping_method_id' => 'required|exists:shipping_methods,id',
+        'payment_method_id' => 'required|exists:payment_methods,id',
+        'address_line' => 'required_if:address_option,new|nullable|string|max:255',
+        'city' => 'required_if:address_option,new|nullable|string|max:100',
+        'province' => 'required_if:address_option,new|nullable|string|max:100',
+        'postal_code' => 'required_if:address_option,new|nullable|string|max:10',
+    ]);
 
-        $cart = Auth::user()->cart;
-        if (!$cart || $cart->items->isEmpty()) {
-            return redirect()->route('products.index')->with('error', 'Keranjang Anda kosong.');
+    $user = Auth::user();
+    // Eager load relasi yang dibutuhkan untuk kalkulasi
+    $cart = $user->cart()->with('items.product.stock')->first();
+
+    if (!$cart || $cart->items->isEmpty()) {
+        return redirect()->route('products.index')->with('error', 'Keranjang Anda kosong.');
+    }
+
+    // 2. Lakukan semua kalkulasi di backend SEBELUM menyimpan ke database
+    $subtotal = $cart->items->reduce(fn($carry, $item) => $carry + ($item->product->price * $item->quantity), 0);
+    
+    $shippingMethod = ShippingMethod::findOrFail($request->shipping_method_id);
+    $paymentMethod = PaymentMethod::findOrFail($request->payment_method_id);
+    $shippingCost = $shippingMethod->cost;
+    
+    $discount = 0;
+    $couponCode = null;
+    if (session()->has('coupon')) {
+        $coupon = session('coupon');
+        $couponCode = $coupon['code'];
+        $discount = ($coupon['type'] == 'fixed') ? $coupon['value'] : ($subtotal * $coupon['percent_off']) / 100;
+    }
+
+    $totalAmount = max(0, $subtotal - $discount + $shippingCost);
+
+    // 3. Gunakan Database Transaction untuk keamanan data
+    $order = null;
+    try {
+        DB::beginTransaction();
+
+        // Tentukan ID Alamat
+        $addressId = null;
+        if ($request->address_option === 'new') {
+            $address = $user->addresses()->create($request->only(['address_line', 'city', 'province', 'postal_code']));
+            $addressId = $address->id;
+        } else {
+            $chosenAddress = $user->addresses()->findOrFail($request->address_option);
+            $addressId = $chosenAddress->id;
         }
 
-        // --- Perhitungan ulang di backend ---
-        $subtotal = 0;
-        foreach ($cart->items as $item) {
-            $subtotal += $item->product->price * $item->quantity;
-        }
-
-        $shippingMethod = ShippingMethod::find($request->shipping_method_id);
-        $shippingCost = $shippingMethod->cost;
-
-        $total = $subtotal + $shippingCost;
-
-        if (session()->has('coupon')) {
-            $coupon = session('coupon');
-            $discount = ($coupon['type'] == 'fixed') ? $coupon['value'] : ($subtotal * $coupon['percent_off']) / 100;
-            $total -= $discount;
-        }
-
-        if ($total < 0) {
-            $total = 0;
-        }
-
-        $paymentMethod = PaymentMethod::find($request->payment_method_id);
-
-        // 1. Simpan alamat
-        $address = Address::create([
-            'user_id' => Auth::id(),
-            'address_line' => $request->address_line,
-            'city' => $request->city,
-            'province' => $request->province,
-            'postal_code' => $request->postal_code,
-        ]);
-
-        // 2. Buat pesanan (order)
-        $newOrder = Order::create([
-            'user_id' => Auth::id(),
-            'shipping_address_id' => $address->id,
-            'total_amount' => $total,
+        // Buat Pesanan dengan semua data yang sudah final
+        $order = Order::create([
+            'user_id' => $user->id,
+            'shipping_address_id' => $addressId,
+            'subtotal' => $subtotal,
             'shipping_method' => $shippingMethod->name,
             'shipping_cost' => $shippingCost,
+            'discount' => $discount,
+            'coupon_code' => $couponCode, // Simpan kode kupon yang dipakai
+            'total_amount' => $totalAmount,
             'payment_method' => $paymentMethod->name,
             'status' => 'pending',
         ]);
 
-        // 3. Pindahkan item & kurangi stok
+        // Pindahkan item dari keranjang ke pesanan & kurangi stok
         foreach ($cart->items as $item) {
-            $newOrder->items()->create([
+            $order->items()->create([
                 'product_id' => $item->product_id,
                 'quantity' => $item->quantity,
                 'price' => $item->product->price,
             ]);
-            $item->product->stock->decrement('quantity', $item->quantity);
+            
+            if ($item->product->stock) {
+                $item->product->stock->decrement('quantity', $item->quantity);
+            }
         }
 
-        // 4. Hapus keranjang & session kupon
+        // Hapus keranjang & session kupon
+        $cart->items()->delete();
         $cart->delete();
         session()->forget('coupon');
 
-        // 5. Arahkan ke halaman detail pesanan
-        return redirect()->route('orders.show', $newOrder);
+        DB::commit();
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        // Log::error('Checkout failed: ' . $e->getMessage()); // Opsional untuk debugging
+        return back()->with('error', 'Terjadi kesalahan saat memproses pesanan. Silakan coba lagi.');
     }
+
+    return redirect()->route('orders.show', $order)->with('success', 'Pesanan Anda berhasil dibuat!');
+}
 }

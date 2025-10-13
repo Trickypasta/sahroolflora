@@ -19,6 +19,8 @@
                 <a href="{{ route('posts.index') }}" class="text-gray-600 hover:text-green-700 transition">Blog</a>
                 <a href="{{ route('about') }}" class="text-gray-600 hover:text-green-700 transition">Tentang Kami</a>
                 <a href="{{ route('contact.show') }}" class="text-gray-600 hover:text-green-700 transition">Kontak</a>
+                <a href="{{ route('testimonials.index') }}" class="text-gray-600 hover:text-green-700 transition">Testimoni</a>
+                <a href="{{ route('promos.index') }}" class="text-gray-600 hover:text-green-700 transition">Promo</a>
             </div>
 
             <div class="flex-1 flex justify-end items-center space-x-4">
@@ -65,6 +67,7 @@
                                 @endif
                             </a>
                             <a href="{{ route('profile.edit') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Pengaturan Akun</a>
+                            <a href="{{ route('orders.track.form') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Lacak Pesanan</a>
                             <form action="{{ route('logout') }}" method="POST" class="w-full">
                                 @csrf
                                 <button type="submit" class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Logout</button>
@@ -83,7 +86,7 @@
             <hr class="my-2">
             <a href="{{ route('testimonials.index') }}" class="block py-2 px-4 text-gray-600 hover:bg-gray-100 rounded">Testimoni</a>
             <a href="{{ route('orders.track.form') }}" class="block py-2 px-4 text-gray-600 hover:bg-gray-100 rounded">Lacak Pesanan</a>
-            <a href="{{ route('coupons.index') }}" class="block py-2 px-4 text-gray-600 hover:bg-gray-100 rounded">Promo</a>
+            <a href="{{ route('promos.index') }}" class="block py-2 px-4 text-gray-600 hover:bg-gray-100 rounded">Promo</a>
         </div>
     </nav>
 </header>

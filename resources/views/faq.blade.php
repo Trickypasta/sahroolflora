@@ -1,68 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>FAQ (Tanya Jawab) - SahroolFlora</title>
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-gray-100">
-    @include('partials.navbar')
+@extends('layouts.app')
 
-    <main class="py-10">
-        <div class="max-w-4xl mx-auto bg-white p-8 rounded-lg shadow-md">
-            <h1 class="text-3xl font-bold text-center mb-8">Frequently Asked Questions (FAQ)</h1>
+@section('title', 'FAQ (Tanya Jawab) - SahroolFlora')
 
-            <div class="space-y-8">
-                <div>
-                    <h3 class="text-xl font-semibold mb-2">Bagaimana cara memesan tanaman di SahroolFlora?</h3>
-                    <p class="text-gray-700">
-                        Anda hanya perlu memilih produk yang Anda suka, klik "Tambah ke Keranjang", lalu buka halaman keranjang untuk melanjutkan ke proses checkout. Anda akan diminta untuk login dan mengisi alamat pengiriman sebelum menyelesaikan pesanan.
-                    </p>
-                </div>
+@section('content')
 
-                <div>
-                    <h3 class="text-xl font-semibold mb-2">Metode pembayaran apa saja yang tersedia?</h3>
-                    <p class="text-gray-700">
-                        [cite_start]Saat ini kami menyediakan metode pembayaran melalui Transfer Bank dan Cash on Delivery (COD) [cite: 35, 55] untuk wilayah tertentu.
-                    </p>
-                </div>
+    <div class="bg-[#F8F7F3]">
+        <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8 text-center">
+            <h1 class="font-lora text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Frequently Asked Questions
+            </h1>
+            <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">Jawaban untuk pertanyaan yang paling sering diajukan.</p>
+        </div>
+    </div>
 
-                <div>
-                    <h3 class="text-xl font-semibold mb-2">Bagaimana tanaman dikemas agar aman selama pengiriman?</h3>
-                    <p class="text-gray-700">
-                        Kami sangat memperhatikan keamanan pengiriman. Setiap tanaman akan kami kemas dengan aman, mengurangi media tanam untuk meringankan berat, dan melindungi daun serta batang untuk meminimalisir kerusakan selama di perjalanan.
-                    </p>
-                </div>
+    <div class="bg-white">
+        <div class="max-w-4xl mx-auto py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
+            <div class="divide-y divide-gray-200">
 
-                <div>
-                    <h3 class="text-xl font-semibold mb-2">Apa yang harus saya lakukan jika tanaman datang dalam kondisi rusak?</h3>
-                    <p class="text-gray-700">
-                        [cite_start]Kami memahami risiko pengiriman tanaman[cite: 101]. Jika tanaman Anda tiba dalam kondisi rusak parah, segera hubungi kami melalui halaman "Kontak Kami" dengan menyertakan foto. Tim kami akan membantu Anda untuk proses penukaran atau solusi lainnya.
-                    </p>
-                </div>
-
-                <div>
-                    <h3 class="text-xl font-semibold mb-2">Apakah SahroolFlora memproduksi tanaman sendiri?</h3>
-                    <p class="text-gray-700">
-                        [cite_start]Tidak, kami adalah **reseller** [cite: 88] yang bekerja sama langsung dengan para petani tanaman hias lokal di sekitar Bojong Gede, Jawa Barat. [cite_start]Misi kami adalah membantu mendistribusikan hasil panen mereka ke pasar yang lebih luas[cite: 99].
-                    </p>
-                </div>
-
-                <div>
-                    <h3 class="text-xl font-semibold mb-2">Apakah SahroolFlora menyediakan jasa desain taman (landscaping)?</h3>
-                    <p class="text-gray-700">
-                        Saat ini kami masih fokus pada penjualan tanaman. [cite_start]Namun, kami memiliki rencana ke depan untuk menambahkan layanan *Plant & Landscaping Service* untuk membantu menata pekarangan rumah pelanggan kami[cite: 96].
-                    </p>
-                </div>
-
-                <div>
-                    <h3 class="text-xl font-semibold mb-2">Di mana saya bisa melihat riwayat pesanan saya?</h3>
-                    <p class="text-gray-700">
-                        Anda dapat melihat semua riwayat pesanan Anda dengan cara login, lalu klik pada nama Anda di pojok kanan atas navbar, dan pilih menu "Pesanan Saya".
-                    </p>
-                </div>
+                {{-- Loop sebanyak jumlah form di admin --}}
+                @for ($i = 1; $i <= 5; $i++)
+                    {{-- Hanya tampilkan jika pertanyaan tidak kosong --}}
+                    @if (isset($settings['faq_q' . $i]) && !empty($settings['faq_q' . $i]))
+                        <div x-data="{ open: false }" class="py-6">
+                            <h3>
+                                <button @click="open = !open"
+                                    class="flex w-full items-start justify-between text-left text-gray-500">
+                                    <span class="text-lg font-semibold text-gray-900">
+                                        {{ $settings['faq_q' . $i] }}
+                                    </span>
+                                    <span class="ml-6 flex h-7 items-center">
+                                        <svg x-show="!open" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                                        </svg>
+                                        <svg x-show="open" x-cloak class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                                        </svg>
+                                    </span>
+                                </button>
+                            </h3>
+                            <div x-show="open" x-collapse class="pt-4 prose max-w-none text-gray-600">
+                                <p>{{ $settings['faq_a' . $i] ?? 'Jawaban belum tersedia.' }}</p>
+                            </div>
+                        </div>
+                    @endif
+                @endfor
 
             </div>
         </div>
-    </main>
-</body>
-</html>
+    </div>
+
+    <section class="py-16 sm:py-24 bg-[#F8F7F3]">
+        <div class="max-w-3xl mx-auto text-center px-4">
+            <h2 class="text-3xl font-bold text-gray-800">Masih Punya Pertanyaan?</h2>
+            <p class="mt-4 text-lg text-gray-600">Jangan ragu untuk menghubungi tim kami jika Anda tidak menemukan jawaban
+                di sini.</p>
+            <a href="{{ route('contact.show') }}"
+                class="mt-8 inline-block bg-green-700 text-white font-bold py-3 px-8 rounded-full hover:bg-green-800 transition">
+                Hubungi Kami
+            </a>
+        </div>
+    </section>
+
+@endsection

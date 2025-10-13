@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -9,7 +10,8 @@ class ContactController extends Controller
     // Menampilkan halaman kontak
     public function show()
     {
-        return view('contact');
+        $settings = \App\Models\Setting::pluck('value', 'key')->all();
+        return view('contact', compact('settings'));
     }
 
     // Memproses dan menyimpan pesan dari form

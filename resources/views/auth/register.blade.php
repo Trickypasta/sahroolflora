@@ -1,30 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
-    @vite('resources/css/app.css')
-</head>
-<body class="bg-gray-100 flex items-center justify-center h-screen">
-    <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
-        <h2 class="text-2xl font-bold text-center mb-6">Register Akun Baru</h2>
-        <form action="{{ route('register') }}" method="POST">
-            @csrf
-            <div class="mb-4">
-                <label class="block text-gray-700 mb-2" for="name">Nama</label>
-                <input class="w-full px-3 py-2 border rounded-lg" type="text" name="name" id="name" required>
-            </div>
-            <div class="mb-4">
-                <label class="block text-gray-700 mb-2" for="email">Email</label>
-                <input class="w-full px-3 py-2 border rounded-lg" type="email" name="email" id="email" required>
-            </div>
-            <div class="mb-6">
-                <label class="block text-gray-700 mb-2" for="password">Password</label>
-                <input class="w-full px-3 py-2 border rounded-lg" type="password" name="password" id="password" required>
-            </div>
-            <button class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600" type="submit">Register</button>
-        </form>
-    </div>
-</body>
-</html>                                         
+@extends('layouts.auth-layout')
+
+@section('title', 'Register')
+
+@section('content')
+    <h1 class="text-center text-2xl font-bold text-gray-800 mb-6">Buat Akun Baru</h1>
+
+    @if ($errors->any())
+        <div class="mb-4 bg-red-50 border-l-4 border-red-400 text-red-700 p-4" role="alert">
+            <p class="font-bold">Oops! Terjadi kesalahan:</p>
+            <ul class="list-disc list-inside">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form method="POST" action="{{ route('register') }}" class="space-y-6">
+        @csrf
+
+        <div>
+            <label for="name" class="block text-sm font-medium text-gray-700">Nama</label>
+            <input id="name" type="text" name="name" value="{{ old('name') }}" required autofocus
+                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+        </div>
+
+        <div>
+            <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+            <input id="email" type="email" name="email" value="{{ old('email') }}" required
+                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+        </div>
+
+        <div>
+            <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+            <input id="password" type="password" name="password" required
+                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-green-500 focus:border-green-500">
+        </div>
+
+        <div>
+            <button type="submit"
+                class="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-sm font-medium text-white bg-green-700 hover:bg-green-800">
+                Register
+            </button>
+        </div>
+
+        <div class="text-center text-sm text-gray-600">
+            Sudah punya akun?
+            <a class="font-medium text-green-600 hover:text-green-800 underline" href="{{ route('login') }}">
+                Login di sini
+            </a>
+        </div>
+    </form>
+@endsection
