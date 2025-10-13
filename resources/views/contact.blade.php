@@ -5,13 +5,13 @@
 @section('content')
 
     <!-- 1. Header Halaman -->
-    <div class="bg-[#F8F7F3]">
-        <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8 text-center">
-            <h1 class="font-lora text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Hubungi Kami</h1>
-            <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">Punya pertanyaan atau butuh bantuan? Kami siap membantu!
-            </p>
+    <section class="relative h-64 bg-cover bg-center text-white"
+        style="background-image: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=2874');">
+        <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+        <div class="relative z-10 flex items-center justify-center h-full text-center">
+            <h1 class="font-lora text-5xl font-extrabold tracking-tight">Hubungi Kami</h1>
         </div>
-    </div>
+    </section>
 
     <!-- 2. Konten Utama (Form & Info Kontak) -->
     <section class="py-16 sm:py-24 bg-white">

@@ -4,12 +4,13 @@
 
 @section('content')
 
-    <div class="bg-[#F8F7F3]">
-        <div class="max-w-7xl mx-auto py-16 px-4 sm:py-24 sm:px-6 lg:px-8 text-center">
-            <h1 class="font-lora text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl">Promo & Diskon Spesial</h1>
-            <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">Manfaatkan penawaran spesial kami untuk mendapatkan tanaman impian Anda dengan harga terbaik.</p>
+    <section class="relative h-64 bg-cover bg-center text-white"
+        style="background-image: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=2874');">
+        <div class="absolute inset-0 bg-black bg-opacity-40"></div>
+        <div class="relative z-10 flex items-center justify-center h-full text-center">
+            <h1 class="font-lora text-5xl font-extrabold tracking-tight">Promo & Diskon Spesial</h1>
         </div>
-    </div>
+    </section>
 
     <div class="bg-white">
         <div class="max-w-7xl mx-auto py-16 sm:py-24 px-4 sm:px-6 lg:px-8">
@@ -17,7 +18,6 @@
             @if ($coupons->isNotEmpty())
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     @foreach ($coupons as $coupon)
-                        {{-- Setiap div di bawah ini adalah satu kartu kupon --}}
                         <div x-data="{
                                 code: '{{ $coupon->code }}',
                                 feedback: 'Salin Kode',
