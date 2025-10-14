@@ -9,6 +9,7 @@
         href="{{ isset($settings['general_favicon']) ? asset('storage/' . $settings['general_favicon']) : asset('favicon.ico') }}"
         type="image/x-icon">
 
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lora:wght@400;700&display=swap"
@@ -30,7 +31,13 @@
     </main>
 
     @include('partials.footer')
-
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            duration: 800, 
+            once: true, 
+        });
+    </script>
     @stack('scripts')
 </body>
 
