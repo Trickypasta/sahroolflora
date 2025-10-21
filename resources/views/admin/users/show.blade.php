@@ -53,10 +53,20 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-white p-6 rounded-lg shadow-sm">
-                <h2 class="text-lg font-semibold mb-4 border-b pb-2 text-slate-700">Riwayat Pesan Kontak</h2>
-                <div class="text-slate-500 text-sm py-4 text-center">
-                    <p>Fitur ini belum diimplementasikan.</p>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <h2 class="text-xl font-bold mb-4 border-b pb-3">Riwayat Pesan Kontak </h2>
+                <div class="max-h-80 overflow-y-auto space-y-4">
+                    @forelse ($contactHistory as $message)
+                        <div class="p-3 rounded-md border">
+                            <div class="flex justify-between items-center text-sm mb-2">
+                                <p class="font-semibold text-slate-800">Pesan dari Form Kontak</p>
+                                <p class="text-slate-500">{{ $message->created_at->diffForHumans() }}</p>
+                            </div>
+                            <p class="text-slate-700">{{ $message->message }}</p>
+                        </div>
+                    @empty
+                        <p class="text-slate-500 text-center py-4">Tidak ditemukan riwayat pesan kontak dari email pengguna ini.</p>
+                    @endforelse
                 </div>
             </div>
         </div>

@@ -61,7 +61,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                 @forelse($featuredProducts as $product)
                     <div class="group relative text-left">
-                        <div class="relative w-full h-96 overflow-hidden rounded-lg bg-gray-100">
+                        <div class="relative w-full h-96 overflow-hidden rounded-3xl bg-gray-100">
                             <img src="{{ $product->images->isNotEmpty() ? asset('storage/' . $product->images->first()->path) : 'https://via.placeholder.com/300' }}"
                                 alt="{{ $product->name }}"
                                 class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
@@ -146,9 +146,9 @@
     <section class="py-16 sm:py-24 bg-white overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                <div class="md:order-last" data-aos="fade-left" data-aos-delay="200">
+                <div class="md:order-last " data-aos="fade-left" data-aos-delay="200">
                     <img src="https://images.unsplash.com/photo-1521334884684-d80222895322?q=80&w=2070" alt="Plant care"
-                        class="rounded-lg shadow-lg aspect-[4/3] object-cover">
+                        class="rounded-3xl shadow-lg aspect-[4/3] object-cover">
                 </div>
                 <div class="text-left">
                     <h2 class="font-lora text-3xl md:text-4xl font-bold mb-4 text-gray-800" data-aos="fade-right">Dari Jurnal Tanaman Kami</h2>

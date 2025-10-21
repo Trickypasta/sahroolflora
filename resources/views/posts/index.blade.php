@@ -18,7 +18,7 @@
             @if ($posts->isNotEmpty())
                 <!-- Artikel Unggulan -->
                 @php $featuredPost = $posts->first(); @endphp
-                <div class="mb-16 group">
+                <div class="mb-16 group" data-aos="fade-up" data-aos-delay="100">
                     <a href="{{ route('posts.show', $featuredPost->slug) }}"
                         class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
                         <div class="overflow-hidden rounded-lg">
@@ -43,7 +43,7 @@
                 </div>
 
                 <!-- Grid Artikel Lainnya -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12" data-aos="fade-up" data-aos-delay="100">
                     @foreach ($posts->skip(1) as $post)
                         <div class="group">
                             <a href="{{ route('posts.show', $post->slug) }}">

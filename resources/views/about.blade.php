@@ -14,7 +14,7 @@
 
     <section class="py-16 sm:py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center " data-aos="fade-up" >
                 <div>
                     @if (isset($settings['general_logo']) && $settings['general_logo'])
                         <img src="{{ asset('storage/' . $settings['general_logo']) }}" alt="Logo SahroolFlora"
@@ -37,7 +37,7 @@
     </section>
 
     <section class="py-16 sm:py-24 bg-[#F8F7F3]">
-        <div class="max-w-3xl mx-auto px-4 text-center">
+        <div class="max-w-3xl mx-auto px-4 text-center" data-aos="fade-up" >
             <h2 class="text-3xl font-bold text-gray-800 tracking-tight">Visi Kami</h2>
             <p class="mt-4 font-lora text-2xl text-gray-600 leading-relaxed"> 
                 "{{ $settings['about_vision'] ?? 'Visi perusahaan belum diisi.' }}"
@@ -47,15 +47,15 @@
 
     <section class="py-16 sm:py-24 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
+            <div class="text-center" data-aos="fade-up">
                 <h2 class="text-3xl font-bold text-gray-800 tracking-tight">Misi Kami</h2>
                 <p class="mt-4 max-w-2xl mx-auto text-lg text-gray-600">Empat pilar utama yang menjadi landasan kami dalam
                     bekerja.</p>
             </div>
 
             <div class="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 text-left">
-                <div class="flex space-x-4">
-                    <div class="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-green-100 rounded-lg">
+                <div class="flex space-x-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-green-100 rounded-lg" >
                         <svg class="h-6 w-6 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
@@ -69,8 +69,8 @@
                         </p>
                     </div>
                 </div>
-                <div class="flex space-x-4">
-                    <div class="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-green-100 rounded-lg">
+                <div class="flex space-x-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-green-100 rounded-lg" >
                         <svg class="h-6 w-6 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -83,7 +83,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="flex space-x-4">
+                <div class="flex space-x-4" data-aos="fade-up" data-aos-delay="500">
                     <div class="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-green-100 rounded-lg">
                         <svg class="h-6 w-6 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -98,7 +98,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="flex space-x-4">
+                <div class="flex space-x-4" data-aos="fade-up" data-aos-delay="700">
                     <div class="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-green-100 rounded-lg">
                         <svg class="h-6 w-6 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path d="M12 14l9-5-9-5-9 5 9 5z" />
@@ -121,7 +121,7 @@
     </section>
 
     <section class="bg-[#F8F7F3]">
-        <div class="max-w-4xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto text-center py-16 px-4 sm:py-20 sm:px-6 lg:px-8" data-aos="fade-up" data-aos-delay="500">
             <h2 class="text-3xl font-bold sm:text-4xl">
                 <span class="block">Siap Menghijaukan Rumah Anda?</span>
             </h2>

@@ -19,7 +19,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
 
                 <!-- Kolom Kiri: Form Kontak -->
-                <div>
+                <div data-aos="fade-up">
                     <h2 class="text-3xl font-bold text-gray-900 mb-2">Kirim Pesan</h2>
                     <p class="text-lg text-gray-600 mb-8">Isi form di bawah ini dan tim kami akan segera membalas Anda.</p>
 
@@ -50,7 +50,7 @@
                 </div>
 
                 <!-- Kolom Kanan: Info Kontak & Peta -->
-                <div class="pt-2">
+                <div class="pt-2" data-aos="fade-up">
                     <h2 class="text-3xl font-bold text-gray-900 mb-8">Informasi Kontak</h2>
                     <div class="space-y-6 text-gray-700">
                         <!-- Alamat -->

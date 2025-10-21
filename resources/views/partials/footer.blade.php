@@ -28,15 +28,9 @@
             </div>
 
             <div class="col-span-2 pt-8 md:pt-0">
-                <h3 class="font-lora text-3xl font-bold text-gray-900">Get The Dirt.</h3>
-                <p class="mt-2 text-base text-gray-500">Dapatkan tips, penawaran eksklusif, & diskon 10% untuk pesanan pertama Anda.</p>
-                <form action="#" method="POST" class="mt-4 flex flex-col sm:flex-row items-center">
-                    @csrf
-                    <input type="email" name="email" required class="w-full px-4 py-3 text-base text-gray-900 bg-white border border-gray-300 rounded-md focus:ring-green-700 focus:border-green-700" placeholder="Enter your email here ...">
-                    <button type="submit" class="mt-3 sm:mt-0 sm:ml-3 w-full sm:w-auto px-6 py-3 bg-green-700 text-white font-semibold rounded-md hover:bg-green-800 transition">
-                        Subscribe
-                    </button>
-                </form>
+                <h3 class="font-lora text-3xl font-bold text-gray-900">Berlangganan Sekarang</h3>
+                <p class="mt-2 text-base text-gray-500">Dapatkan tips, penawaran eksklusif, & diskon untuk pesanan pertama Anda.</p>
+            
                 <div class="mt-6 flex space-x-6">
                     <a href="https://www.instagram.com/sahroolflora_/" class="text-gray-400 hover:text-gray-500">Instagram</a>
                     <a href="#" class="text-gray-400 hover:text-gray-500">[Icon Facebook]</a>

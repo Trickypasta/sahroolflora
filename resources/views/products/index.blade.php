@@ -82,7 +82,7 @@
                         <div class="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                             @forelse ($products as $product)
                                 <div class="group relative text-left">
-                                    <div class="relative w-full h-80 overflow-hidden rounded-lg bg-gray-100">
+                                    <div class="relative w-full h-80 overflow-hidden rounded-2xl bg-gray-100">
                                         <img src="{{ $product->images->isNotEmpty() ? asset('storage/' . $product->images->first()->path) : 'https://via.placeholder.com/300' }}"
                                             alt="{{ $product->name }}"
                                             class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">

@@ -136,12 +136,14 @@ Route::middleware(['auth', 'is.admin'])->prefix('admin')->name('admin.')->group(
     Route::resource('payment-methods', Admin\PaymentMethodController::class);
     Route::resource('expenses', Admin\ExpenseController::class)->except(['show']);
 
-    // Manajemen Pesanan
+    // Manajemen Pesanan (Alur Kerja Baru)
     Route::get('/orders', [Admin\OrderController::class, 'index'])->name('orders.index');
     Route::get('/orders/{order}', [Admin\OrderController::class, 'show'])->name('orders.show');
-    Route::post('/orders/{order}/update-status', [Admin\OrderController::class, 'updateStatus'])->name('orders.updateStatus');
-    Route::post('/orders/{order}/add-tracking', [Admin\OrderController::class, 'addTrackingNumber'])->name('orders.addTracking');
-
+    // Aksi-aksi baru yang terurut:
+    Route::post('/orders/{order}/confirm-payment', [Admin\OrderController::class, 'confirmPayment'])->name('orders.confirmPayment');
+    Route::post('/orders/{order}/ship', [Admin\OrderController::class, 'shipOrder'])->name('orders.shipOrder');
+    Route::post('/orders/{order}/complete', [Admin\OrderController::class, 'completeOrder'])->name('orders.completeOrder');
+    Route::post('/orders/{order}/cancel', [Admin\OrderController::class, 'cancelOrder'])->name('orders.cancelOrder');
     // Manajemen Lainnya
     Route::get('/stocks', [Admin\StockController::class, 'index'])->name('stocks.index');
     Route::post('/stocks/{stock}', [Admin\StockController::class, 'update'])->name('stocks.update');

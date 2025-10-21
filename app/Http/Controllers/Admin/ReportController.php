@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Models\ContactMessage;
 
 class ReportController extends Controller
 {
@@ -83,6 +84,12 @@ class ReportController extends Controller
             $currentDate->addDay();
         }
 
+        $totalCustomers = User::whereHas('roles', fn($q) => $q->where('name', 'customer'))->count();
+        $newCustomersThisMonth = User::whereHas('roles', fn($q) => $q->where('name', 'customer'))
+            ->whereBetween('created_at', [$startDate, $endDate->copy()->endOfDay()])
+            ->count();
+        $totalContactMessages = ContactMessage::whereBetween('created_at', [$startDate, $endDate->copy()->endOfDay()])->count();
+
         // 6. Kirim semua data ke view
         return view('admin.reports.analytics', [
             'orders' => $orders,
@@ -92,6 +99,9 @@ class ReportController extends Controller
             'endDate' => $endDate->toDateString(),
             'chartLabels' => $chartLabels,
             'chartData' => $chartData,
+            'totalCustomers' => $totalCustomers,
+            'newCustomersThisMonth' => $newCustomersThisMonth,
+            'totalContactMessages' => $totalContactMessages,
         ]);
     }
 

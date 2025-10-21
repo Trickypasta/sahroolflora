@@ -8,6 +8,7 @@ use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use App\Models\ContactMessage;
 
 class UserController extends Controller
 {
@@ -92,6 +93,16 @@ class UserController extends Controller
         $totalSpent = $completedOrders->sum('total_amount');
         $completedOrdersCount = $completedOrders->count();
 
-        return view('admin.users.show', compact('user', 'totalSpent', 'completedOrdersCount'));
+        $contactHistory = ContactMessage::where('email', $user->email)
+            ->latest()
+            ->take(5) // Kita batasi 5 pesan terbaru
+            ->get();
+
+        return view('admin.users.show', compact(
+            'user',
+            'totalSpent',
+            'completedOrdersCount',
+            'contactHistory'
+        ));
     }
 }
