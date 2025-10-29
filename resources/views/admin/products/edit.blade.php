@@ -44,6 +44,28 @@
                         </div>
                     </div>
 
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Gambar Saat Ini</label>
+                        <div class="flex flex-wrap gap-4">
+                            @forelse($product->images as $image)
+                                <img src="{{ asset('storage/' . $image->path) }}" alt="Gambar Produk"
+                                    class="h-28 w-28 rounded-md object-cover border border-gray-300">
+                            @empty
+                                <p class="text-sm text-gray-500">Tidak ada gambar untuk produk ini.</p>
+                            @endforelse
+                        </div>
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="images" class="block text-sm font-medium text-gray-700">Upload Gambar Baru
+                            (Opsional)</label>
+                        <input type="file" name="images[]" id="images" multiple
+                            class="mt-1 block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
+                        <p class="mt-1 text-xs text-gray-500">
+                            PENTING: Jika Anda upload gambar baru, **semua gambar lama akan dihapus** dan diganti.
+                        </p>
+                    </div>
+
                     <div class="mb-4">
                         <label class="block text-gray-700 font-semibold mb-2">Kategori</label>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-2">

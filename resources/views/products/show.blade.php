@@ -24,7 +24,7 @@
 
                 <div class="sticky top-24">
                     <h1 class="font-lora text-3xl md:text-4xl font-bold text-gray-900">{{ $product->name }}</h1>
-                    <p class="mt-3 text-3xl font-bold text-gray-900">Rp {{ number_format($product->price, 0, ',', '.') }}
+                    <p class="mt-3 text-3xl font-bold text-green-700">Rp {{ number_format($product->price, 0, ',', '.') }}
                     </p>
 
                     <div class="mt-6">

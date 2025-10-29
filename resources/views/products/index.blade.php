@@ -86,7 +86,12 @@
                                         <img src="{{ $product->images->isNotEmpty() ? asset('storage/' . $product->images->first()->path) : 'https://via.placeholder.com/300' }}"
                                             alt="{{ $product->name }}"
                                             class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
-
+                                        @if ($product->stock && $product->stock->quantity <= 0)
+                                            <div
+                                                class="absolute inset-0 bg-white bg-opacity-75 flex items-center justify-center z-10 rounded-2xl">
+                                                <span class="text-red-600 font-bold text-lg">Stok Habis</span>
+                                            </div>
+                                        @endif
                                         @include('partials.wishlist-button', ['product' => $product])
                                     </div>
                                     <div class="mt-4">
@@ -96,7 +101,7 @@
                                                 {{ $product->name }}
                                             </a>
                                         </h3>
-                                        <p class="mt-1 text-xl font-bold text-gray-900">Rp
+                                        <p class="mt-1 text-xl font-bold text-green-700">Rp
                                             {{ number_format($product->price, 0, ',', '.') }}</p>
                                     </div>
                                 </div>

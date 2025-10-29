@@ -33,8 +33,6 @@
             
                 <div class="mt-6 flex space-x-6">
                     <a href="https://www.instagram.com/sahroolflora_/" class="text-gray-400 hover:text-gray-500">Instagram</a>
-                    <a href="#" class="text-gray-400 hover:text-gray-500">[Icon Facebook]</a>
-                    <a href="#" class="text-gray-400 hover:text-gray-500">[Icon TikTok]</a>
                     <a href="https://shopee.co.id/sahroolflora_?entryPoint=ShopBySearch&searchKeyword=sahroolflora" class="text-gray-400 hover:text-gray-500">Shopee</a>
                 </div>
             </div>
@@ -44,7 +42,7 @@
             <div class="flex items-center text-4xl font-lora font-bold text-gray-800">
                 <span>SahroolFlora</span>
             </div>
-            <p class="text-sm text-gray-400 mt-4 md:mt-0">Copyright {{ date('Y') }} — SahroolFlora, Inc.</p>
+            <p class="text-sm text-gray-400 mt-4 md:mt-0">Copyright {{ date('Y') }} — SahroolFlora.</p>
             <div class="flex space-x-4 mt-4 md:mt-0 text-sm text-gray-500">
                 <a href="{{ route('terms') }}" class="hover:text-gray-900">Terms of Use</a>
                 <a href="{{ route('privacy') }}" class="hover:text-gray-900">Privacy Policy</a>

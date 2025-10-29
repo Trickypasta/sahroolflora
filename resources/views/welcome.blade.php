@@ -87,7 +87,7 @@
                                     {{ $product->name }}
                                 </a>
                             </h3>
-                            <p class="mt-1 text-xl font-bold text-gray-900">Rp
+                            <p class="mt-1 text-xl font-bold text-green-700">Rp
                                 {{ number_format($product->price, 0, ',', '.') }}</p>
                         </div>
                     </div>
