@@ -66,21 +66,29 @@ class ProductController extends Controller
                 $filename = Str::slug($request->name) . '-' . Str::random(5) . time() . '.webp';
                 $path = 'products/' . $filename;
 
-                // 🆕 Versi 3.x: pakai read() bukan make()
-                $image = Image::read($imagefile)
+                // 👇 FIX: Tentukan Full Path
+                $fullPath = storage_path('app/public/' . $path);
+
+                // 👇 FIX: Cek apakah folder 'storage/app/public/products' ada? Kalau ga ada, BIKIN!
+                if (!file_exists(dirname($fullPath))) {
+                    mkdir(dirname($fullPath), 0755, true);
+                }
+
+                // Proses resize & save
+                Image::read($imagefile)
                     ->resize(1000, null, function ($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     })
-                    ->toWebp(80) // konversi ke webp
-                    ->save(storage_path('app/public/' . $path)); // simpan ke storage
+                    ->toWebp(80)
+                    ->save($fullPath); // Simpan ke path yang udah pasti ada foldernya
 
-                // Simpan path ke database
+                // Simpan path relative ke database
                 $product->images()->create(['path' => $path]);
             }
         }
 
-        return redirect()->route('admin.products.index');
+        return redirect()->route('admin.products.index')->with('success', 'Produk berhasil ditambahkan!');
     }
 
     // UPDATE (Part 1)
@@ -104,7 +112,6 @@ class ProductController extends Controller
             'images.*' => 'image|mimes:jpeg,png,jpg,gif,svg,webp|max:3072'
         ]);
 
-        // ... (logika slug unik lu biarin aja) ...
         $baseSlug = Str::slug($request->name);
         $slug = $baseSlug;
         $counter = 1;
@@ -112,7 +119,6 @@ class ProductController extends Controller
             $slug = $baseSlug . '-' . $counter++;
         }
 
-        // Update data teks produk
         $product->update([
             'name' => $request->name,
             'slug' => $slug,
@@ -121,54 +127,60 @@ class ProductController extends Controller
             'price' => $request->price,
         ]);
 
-        // Update relasi
         $product->categories()->sync($request->categories ?? []);
         $product->stock()->update(['quantity' => $request->stock]);
 
-        // ===========================================
-        // LOGIKA UPDATE GAMBAR (REVISI DI SINI)
-        // ===========================================
         if ($request->hasFile('images')) {
-
-            // 1. Hapus semua gambar lama dari folder 'storage'
+            // Hapus gambar lama
             foreach ($product->images as $oldImage) {
-                Storage::disk('public')->delete($oldImage->path);
+                if (Storage::disk('public')->exists($oldImage->path)) {
+                    Storage::disk('public')->delete($oldImage->path);
+                }
             }
-
-            // 2. Hapus SEMUA relasi gambar lama dari database
             $product->images()->delete();
 
-            // 3. Upload dan proses gambar baru (logika sama persis kayak di fungsi store())
+            // Upload gambar baru
             foreach ($request->file('images') as $imagefile) {
                 $filename = Str::slug($request->name) . '-' . Str::random(5) . time() . '.webp';
                 $path = 'products/' . $filename;
+                $fullPath = storage_path('app/public/' . $path);
 
-                // Proses dan simpan
+                // 👇 FIX: Cek folder lagi disini juga
+                if (!file_exists(dirname($fullPath))) {
+                    mkdir(dirname($fullPath), 0755, true);
+                }
+
                 Image::read($imagefile)
                     ->resize(1000, null, function ($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     })
                     ->toWebp(80)
-                    ->save(storage_path('app/public/' . $path)); // Simpan ke storage
+                    ->save($fullPath);
 
-                // 4. Buat relasi gambar baru di database
                 $product->images()->create(['path' => $path]);
             }
         }
 
-        return redirect()->route('admin.products.index');
+        return redirect()->route('admin.products.index')->with('success', 'Produk berhasil diperbarui!');
     }
 
     // DELETE
     public function destroy(Product $product)
     {
-        foreach ($product->images as $image) {
-            Storage::disk('public')->delete($image->path);
+        try {
+            foreach ($product->images as $image) {
+                if (Storage::disk('public')->exists($image->path)) {
+                    Storage::disk('public')->delete($image->path);
+                }
+            }
+            $product->images()->delete();
+            $product->stock()->delete();
+            $product->delete();
+
+            return redirect()->route('admin.products.index')->with('success', 'Produk berhasil dihapus!');
+        } catch (\Exception $e) {
+            return back()->with('error', 'Gagal menghapus produk: ' . $e->getMessage());
         }
-
-        $product->delete();
-
-        return redirect()->route('admin.products.index');
     }
 }

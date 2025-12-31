@@ -69,7 +69,8 @@
                                     $discount = ($subtotal * $coupon['percent_off']) / 100;
                                 }
                             }
-                            $total = $subtotal - $discount;
+                            
+                            $total = max(0, $subtotal - $discount); 
                         @endphp
                         
                         <dl class="mt-6 space-y-4">

@@ -4,7 +4,6 @@
 @section('content')
     <h1 class="text-3xl font-bold mb-6">Manajemen Kategori</h1>
 
-    @include('partials.notification')
 
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {{-- Kolom Kiri: Form Input --}}
@@ -26,7 +25,6 @@
             </div>
         </div>
 
-        {{-- Kolom Kanan: Daftar Kategori --}}
         <div class="lg:col-span-2">
             <div class="bg-white p-6 rounded-lg shadow-md">
                 <h2 class="text-2xl font-bold mb-4">Daftar Kategori</h2>

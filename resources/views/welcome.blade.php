@@ -6,20 +6,23 @@
 
     {{-- 1. Hero Section --}}
     <section class="relative h-[80vh] bg-cover bg-center text-white overflow-hidden"
-        style="background-image: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=2874');">
+        style="background-image: url('{{ asset('images/bgrundutama.webp') }}');">
         {{-- Overlay yang lebih soft --}}
         <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
 
         <div class="relative z-10 h-full flex flex-col justify-end max-w-7xl mx-auto p-8 md:p-12">
             <div class="max-w-2xl">
-                <h1 class="font-lora text-4xl md:text-6xl font-bold text-white leading-tight drop-shadow-md" data-aos="fade-right">
+                <h1 class="font-lora text-4xl md:text-6xl font-bold text-white leading-tight drop-shadow-md"
+                    data-aos="fade-right">
                     Bawa Keindahan Alam ke Dalam Rumah
                 </h1>
-                <p class="mt-4 text-lg md:text-xl text-gray-200 max-w-xl drop-shadow" data-aos="fade-right" data-aos-delay="300">
+                <p class="mt-4 text-lg md:text-xl text-gray-200 max-w-xl drop-shadow" data-aos="fade-right"
+                    data-aos-delay="300">
                     Temukan koleksi tanaman hias terbaik untuk setiap sudut ruangan, dirawat langsung oleh petani lokal.
                 </p>
                 <a href="{{ route('products.index') }}"
-                    class="mt-8 inline-block bg-white/20 backdrop-blur-sm border border-white/50 text-white font-bold py-3 px-8 rounded-full transition hover:bg-white hover:text-green-800 shadow-lg text-lg" data-aos="fade-right" data-aos-delay="400">
+                    class="mt-8 inline-block bg-white/20 backdrop-blur-sm border border-white/50 text-white font-bold py-3 px-8 rounded-full transition hover:bg-white hover:text-green-800 shadow-lg text-lg"
+                    data-aos="fade-right" data-aos-delay="400">
                     Jelajahi Koleksi
                 </a>
             </div>
@@ -28,7 +31,7 @@
 
     {{-- 2. Kategori Pilihan --}}
     <section class="py-16 sm:py-24 bg-[#F8F7F3] overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center"  data-aos="fade-up">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-aos="fade-up">
             <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Belanja Sesuai Kebutuhan</h2>
             <p class="text-lg text-gray-600 mb-12 max-w-2xl mx-auto">Dari yang ramah hewan peliharaan hingga yang cocok
                 untuk pemula, kami punya semuanya.</p>
@@ -100,7 +103,7 @@
 
     {{-- 4. Keunggulan Toko (BAGIAN BARU) --}}
     <section class="py-16 sm:py-24 bg-[#F8F7F3] overflow-hidden">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"  data-aos="fade-up">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8" data-aos="fade-up">
             <div class="text-center mb-12">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Kenapa Belanja di SahroolFlora?</h2>
             </div>
@@ -108,13 +111,14 @@
                 <div>
                     <div data-aos="fade-up" data-aos-delay="100"
                         class="mx-auto h-12 w-12 flex items-center justify-center rounded-full bg-green-100 text-green-700">
-                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" >
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" />
                         </svg>
                     </div>
                     <h3 class="mt-4 text-lg font-semibold" data-aos="fade-up" data-aos-delay="100">Dukung Petani Lokal</h3>
-                    <p class="mt-1 text-gray-600" data-aos="fade-up" data-aos-delay="100">Setiap pembelian Anda membantu perekonomian petani tanaman hias lokal.</p>
+                    <p class="mt-1 text-gray-600" data-aos="fade-up" data-aos-delay="100">Setiap pembelian Anda membantu
+                        perekonomian petani tanaman hias lokal.</p>
                 </div>
                 <div>
                     <div data-aos="fade-up" data-aos-delay="200"
@@ -125,7 +129,8 @@
                         </svg>
                     </div>
                     <h3 class="mt-4 text-lg font-semibold" data-aos="fade-up" data-aos-delay="200">Garansi Tiba Sehat</h3>
-                    <p class="mt-1 text-gray-600" data-aos="fade-up" data-aos-delay="200">Kami pastikan tanaman sampai ke tangan Anda dalam kondisi terbaik.</p>
+                    <p class="mt-1 text-gray-600" data-aos="fade-up" data-aos-delay="200">Kami pastikan tanaman sampai ke
+                        tangan Anda dalam kondisi terbaik.</p>
                 </div>
                 <div>
                     <div data-aos="fade-up" data-aos-delay="300"
@@ -136,7 +141,8 @@
                         </svg>
                     </div>
                     <h3 class="mt-4 text-lg font-semibold" data-aos="fade-up" data-aos-delay="300">Pengiriman Aman</h3>
-                    <p class="mt-1 text-gray-600" data-aos="fade-up" data-aos-delay="300">Dikemas dengan hati-hati untuk melindungi setiap daun dan batang.</p>
+                    <p class="mt-1 text-gray-600" data-aos="fade-up" data-aos-delay="300">Dikemas dengan hati-hati untuk
+                        melindungi setiap daun dan batang.</p>
                 </div>
             </div>
         </div>
@@ -151,8 +157,10 @@
                         class="rounded-3xl shadow-lg aspect-[4/3] object-cover">
                 </div>
                 <div class="text-left">
-                    <h2 class="font-lora text-3xl md:text-4xl font-bold mb-4 text-gray-800" data-aos="fade-right">Dari Jurnal Tanaman Kami</h2>
-                    <p class="text-lg text-gray-600 mb-8" data-aos="fade-right">Baca tips dan trik dari para ahli agar tanamanmu tumbuh subur dan
+                    <h2 class="font-lora text-3xl md:text-4xl font-bold mb-4 text-gray-800" data-aos="fade-right">Dari
+                        Jurnal Tanaman Kami</h2>
+                    <p class="text-lg text-gray-600 mb-8" data-aos="fade-right">Baca tips dan trik dari para ahli agar
+                        tanamanmu tumbuh subur dan
                         bahagia.</p>
                     <div class="space-y-4" data-aos="fade-right">
                         @foreach ($latestPosts as $post)

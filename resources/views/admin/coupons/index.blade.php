@@ -21,7 +21,6 @@
                         <label for="type" class="block font-semibold">Tipe Diskon</label>
                         <select name="type" id="type" class="w-full border rounded-md px-3 py-2 mt-1">
                             <option value="fixed">Potongan Tetap (Rp)</option>
-                            <option value="percent">Persentase (%)</option>
                         </select>
                     </div>
                     <div class="mb-4" id="value_field">

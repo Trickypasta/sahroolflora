@@ -26,13 +26,10 @@
                 <tbody>
                     @foreach ($users as $user)
                         <tr class="bg-white border-b hover:bg-slate-50">
-                            {{-- Nama --}}
                             <td class="px-6 py-4 font-medium text-slate-900">
                                 <a href="{{ route('admin.users.show', $user->id) }}" class="hover:underline">{{ $user->name }}</a>
                             </td>
-                            {{-- Email --}}
                             <td class="px-6 py-4">{{ $user->email }}</td>
-                            {{-- Role --}}
                             <td class="px-6 py-4">
                                 @forelse ($user->roles as $role)
                                     <span class="px-2 py-1 text-xs font-semibold rounded-full 
@@ -45,14 +42,11 @@
                                     </span>
                                 @endforelse
                             </td>
-                            {{-- Aksi (Edit & Hapus) --}}
                             <td class="px-6 py-4 flex items-center space-x-3">
-                                {{-- Tombol Edit --}}
                                 <a href="{{ route('admin.users.edit', $user->id) }}"
                                    class="font-medium text-blue-600 hover:underline">Edit</a>
                                 
-                                {{-- Tombol Hapus (dengan Modal) --}}
-                                @if(auth()->id() !== $user->id) {{-- Sembunyikan tombol hapus untuk diri sendiri --}}
+                                @if(auth()->id() !== $user->id)
                                     <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" @submit.prevent="openModal($event.target)">
                                         @csrf
                                         @method('DELETE')

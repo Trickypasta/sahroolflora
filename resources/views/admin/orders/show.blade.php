@@ -7,11 +7,6 @@
         <a href="{{ route('admin.orders.index', ['status' => $order->status]) }}" class="text-blue-500 hover:underline">&larr; Kembali ke Daftar Pesanan</a>
     </div>
 
-    @include('partials.notification')
-
-    {{-- =================================================== --}}
-    {{-- BAGIAN BARU: Aksi Cepat Berdasarkan Status --}}
-    {{-- =================================================== --}}
     <div class="mb-6">
         @if ($order->status == 'pending')
             <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 rounded-md">
@@ -40,7 +35,6 @@
                     </button>
                 </div>
                 
-                {{-- Form Kirim (Muncul saat diklik) --}}
                 <form x-show="showTrackingForm" x-transition class="mt-4 border-t border-blue-200 pt-4" action="{{ route('admin.orders.shipOrder', $order->id) }}" method="POST">
                     @csrf
                     <label for="tracking_number" class="block font-semibold text-slate-700">Nomor Resi</label>
@@ -76,7 +70,6 @@
         @endif
     </div>
 
-    {{-- Detail Info (Kartu-kartu di bawahnya) --}}
     <div class="space-y-6">
         <div class="bg-white p-6 rounded-lg shadow-md">
             <h3 class="font-semibold border-b border-slate-200 pb-2 mb-4 text-xl">Detail Pengiriman</h3>
@@ -97,7 +90,6 @@
         <div class="bg-white p-6 rounded-lg shadow-md">
              <h3 class="font-semibold border-b border-slate-200 pb-2 mb-4 text-xl">Item Dipesan</h3>
              <div class="overflow-x-auto">
-                {{-- Ganti styling tabel agar lebih bersih --}}
                 <table class="w-full text-left">
                     <thead class="text-xs text-slate-700 uppercase bg-slate-50">
                         <tr>

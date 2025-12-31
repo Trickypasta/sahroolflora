@@ -5,10 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', $settings['general_sitename'] ?? 'SahroolFlora')</title>
-    <link rel="icon"
-        href="{{ isset($settings['general_favicon']) ? asset('storage/' . $settings['general_favicon']) : asset('favicon.ico') }}"
-        type="image/x-icon">
-
+    @php
+        $dbFavicon = \App\Models\Setting::where('key', 'general_favicon')->value('value');
+        $faviconUrl = $dbFavicon ? asset('storage/' . $dbFavicon) : asset('favicon.ico');
+    @endphp
+    <link rel="icon" href="{{ $faviconUrl }}" type="image/x-icon">
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

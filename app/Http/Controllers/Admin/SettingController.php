@@ -11,18 +11,18 @@ class SettingController extends Controller
 {
     public function index()
     {
-        
+
         $settings = Setting::pluck('value', 'key')->all();
         return view('admin.settings.index', compact('settings'));
     }
 
     public function update(Request $request)
     {
-         
+
         // Validasi dasar
         $request->validate([
             'general_logo' => 'nullable|image|mimes:png,jpg,jpeg,svg|max:1024',
-            'general_favicon' => 'nullable|image|mimes:ico,png|max:256',
+            'general_favicon' => 'nullable|mimes:ico,png,jpg,jpeg|max:256',
         ]);
 
         $data = $request->except('_token');

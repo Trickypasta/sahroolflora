@@ -4,7 +4,6 @@
 
 @section('content')
     <div class="bg-white">
-        <!-- Header Halaman -->
         <section class="relative h-64 bg-cover bg-center text-white"
             style="background-image: url('https://images.unsplash.com/photo-1501004318641-b39e6451bec6?q=80&w=2874');">
             <div class="absolute inset-0 bg-black bg-opacity-40"></div>
@@ -16,7 +15,6 @@
         
         <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
             @if ($posts->isNotEmpty())
-                <!-- Artikel Unggulan -->
                 @php $featuredPost = $posts->first(); @endphp
                 <div class="mb-16 group" data-aos="fade-up" data-aos-delay="100">
                     <a href="{{ route('posts.show', $featuredPost->slug) }}"
@@ -42,7 +40,6 @@
                     </a>
                 </div>
 
-                <!-- Grid Artikel Lainnya -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12" data-aos="fade-up" data-aos-delay="100">
                     @foreach ($posts->skip(1) as $post)
                         <div class="group">
@@ -69,7 +66,6 @@
                     @endforeach
                 </div>
 
-                <!-- Pagination -->
                 <div class="mt-16">
                     {{ $posts->links() }}
                 </div>
